@@ -101,15 +101,26 @@
      * @param handleObj Event handler
      */
     remove: function(handleObj) {
+      var $this = $(this);
       var target = handleObj.selector
-          ? $(this).find(handleObj.selector)
-          : $(this)
-        , id = target.attr('data-clickout');
+          ? $this.find(handleObj.selector)
+          : $this;
 
-      target.removeAttr('data-clickout');
 
-      $(document).unbind(click + '.clickout' + id);
-      $(this).off(click + '.clickout' + id, handleObj.selector);
+      $.each(target,
+        function (i, element) {
+          $.map($._data(element, "events")['mousedown'],
+            function (event) {
+              if(event.namespace && event.namespace.indexOf('clickout') == 0) {
+                var eventname = event.type + "." + event.namespace;
+                $(document).unbind(eventname);
+                $this.off(eventname, handleObj.selector);
+              }
+            }
+          );
+        }
+      );
+
       return false;
     }
   };
