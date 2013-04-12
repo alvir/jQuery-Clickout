@@ -89,8 +89,8 @@
       // A closure is used create a static id
         return function(e){
           // If the click is not inside the element, call the callback
-          if (!e.originalEvent.clickin || e.originalEvent.clickin !== id) {
             handleObj.handler.apply(this, arguments);
+          if (!(e.originalEvent.clickin && e.originalEvent.clickin == id) && $(handleObj.selector ? handleObj.selector : target).is(":visible")) {
           }
         };
       })(counter));
