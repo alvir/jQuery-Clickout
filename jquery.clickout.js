@@ -34,7 +34,7 @@
       * Touchstart is.
       * @static
       */
-      click = window.Touch ? 'touchstart' : 'click';
+      click = window.Touch ? 'touchstart' : 'mousedown';
 
 
   /**
