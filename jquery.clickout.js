@@ -76,12 +76,13 @@
       var target = handleObj.selector
           ? $(this).find(handleObj.selector)
           : $(this);
-      target.attr('data-clickout', counter);
 
       // When the click is inside, extend the Event object to mark it as so
-      $(this).on(click + '.clickout' + counter, handleObj.selector, function(e){
-        e.originalEvent.clickin = $(this).attr('data-clickout');
-      });
+      $(this).on(click + '.clickout' + counter, handleObj.selector, (function(id){
+        return function(e){
+          e.originalEvent.clickin = id;
+        };
+      })(counter));
 
       // Bind a click event to the document, to be cought after bubbling
       $(document).bind(click + '.clickout' + counter, (function(id){
